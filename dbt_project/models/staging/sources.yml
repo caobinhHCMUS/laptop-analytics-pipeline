@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: sqlserver_raw
+    database: LaptopAnalytics
+    schema: dbo
+    tables:
+      - name: raw_brand
+      - name: raw_cpu_model
+      - name: raw_gpu_model
+      - name: raw_laptop_model
+      - name: raw_laptop_benchmark_result
+      - name: raw_user_event_tracking
