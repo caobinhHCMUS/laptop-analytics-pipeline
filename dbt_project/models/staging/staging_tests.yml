@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stg_brands
+    columns:
+      - name: brand_id
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_laptop_models
+    columns:
+      - name: laptop_model_id
+        tests:
+          - unique
+          - not_null
+      - name: brand_id
+        tests:
+          - relationships:
+              to: ref('stg_brands')
+              field: brand_id

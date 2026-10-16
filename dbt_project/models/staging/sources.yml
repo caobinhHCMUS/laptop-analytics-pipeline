@@ -4,10 +4,17 @@ sources:
   - name: sqlserver_raw
     database: LaptopAnalytics
     schema: dbo
+    description: "Cơ sở dữ liệu chứa các bảng thô được nạp từ ClickHouse"
     tables:
       - name: raw_brand
+        description: "Thông tin thô thương hiệu laptop"
       - name: raw_cpu_model
+        description: "Thông tin thô dòng CPU"
       - name: raw_gpu_model
+        description: "Thông tin thô dòng card đồ họa GPU"
       - name: raw_laptop_model
+        description: "Thông tin thô dòng sản phẩm laptop"
       - name: raw_laptop_benchmark_result
+        description: "Điểm đo hiệu năng thô của laptop"
       - name: raw_user_event_tracking
+        description: "Lịch sử sự kiện tương tác của người dùng"
