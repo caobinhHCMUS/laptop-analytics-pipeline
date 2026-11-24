@@ -1,6 +1,5 @@
 import clickhouse_connect
 import pandas as pd
-import pyodbc
 from dotenv import load_dotenv
 import os 
 load_dotenv()
@@ -16,17 +15,6 @@ ch_client = clickhouse_connect.get_client(
 )
 
 print(f"Đã kết nối thành công tới ClickHouse {os.getenv('CH_HOST')}")
-
-# 2. Kết nối SQL Server Local (Dùng Windows Auth hoặc SQL Auth)
-# Chuỗi kết nối Windows Authentication:
-conn_str = (
-    "Driver={ODBC Driver 17 for SQL Server};"
-    "Server=localhost;"  # Hoặc .\SQLEXPRESS
-    "Database=LaptopAnalytics;"
-    "Trusted_Connection=yes;"
-)
-sql_conn = pyodbc.connect(conn_str)
-cursor = sql_conn.cursor()
 
 # Danh sách bảng kích thước nhỏ cần kéo về (Dimension)
 tables = ['brand', 'cpu_model', 'gpu_model', 'laptop_model', 'laptop_benchmark_result']

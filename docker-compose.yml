@@ -1,0 +1,29 @@
+services:
+  airflow:
+    build:
+      context: .
+      dockerfile: docker/airflow/Dockerfile
+    container_name: laptop-analytics-airflow
+    command: standalone
+    restart: unless-stopped
+    environment:
+      AIRFLOW__CORE__DAGS_FOLDER: /opt/airflow/dags
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      SQL_SERVER: host.docker.internal
+      SQL_DATABASE: ${SQL_DATABASE:-LaptopAnalytics}
+      SQL_DRIVER: ODBC Driver 18 for SQL Server
+      SQL_USER: ${SQL_USER:?Add SQL_USER to .env}
+      SQL_PASSWORD: ${SQL_PASSWORD:?Add SQL_PASSWORD to .env}
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    ports:
+      - "127.0.0.1:8082:8080"
+    volumes:
+      - airflow_home:/opt/airflow
+      - ./dags:/opt/airflow/dags:ro
+      - ./scripts:/opt/airflow/project/scripts:ro
+      - ./dbt_project:/opt/airflow/project/dbt_project
+      - ./data:/opt/airflow/project/data
+
+volumes:
+  airflow_home:

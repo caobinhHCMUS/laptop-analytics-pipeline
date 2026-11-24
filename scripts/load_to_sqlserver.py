@@ -10,16 +10,25 @@ load_dotenv()
 SQL_SERVER = os.getenv("SQL_SERVER", "localhost")
 SQL_DATABASE = os.getenv("SQL_DATABASE", "LaptopAnalytics")
 SQL_DRIVER = os.getenv("SQL_DRIVER", "ODBC Driver 17 for SQL Server")
+SQL_USER = os.getenv("SQL_USER")
+SQL_PASSWORD = os.getenv("SQL_PASSWORD")
 
 # 2. Xây dựng chuỗi kết nối SQLAlchemy với SQL Server
-# Dùng Windows Authentication (Trusted Connection)
-connection_string = (
+connection_parts = [
     f"Driver={{{SQL_DRIVER}}};"
-    f"Server={SQL_SERVER};"
-    f"Database={SQL_DATABASE};"
-    "Trusted_Connection=yes;"
-    "TrustServerCertificate=yes;"
-)
+    f"Server={SQL_SERVER};",
+    f"Database={SQL_DATABASE};",
+]
+
+if SQL_USER and SQL_PASSWORD:
+    connection_parts.extend([f"UID={{{SQL_USER}}};", f"PWD={{{SQL_PASSWORD}}};"])
+elif SQL_USER or SQL_PASSWORD:
+    raise ValueError("Both SQL_USER and SQL_PASSWORD must be set for SQL authentication.")
+else:
+    connection_parts.append("Trusted_Connection=yes;")
+
+connection_parts.append("TrustServerCertificate=yes;")
+connection_string = "".join(connection_parts)
 
 params = urllib.parse.quote_plus(connection_string)
 engine = create_engine(f"mssql+pyodbc:///?odbc_connect={params}")
@@ -47,8 +56,7 @@ for file_name, target_table in tables_to_load:
     file_path = f"data/{file_name}.parquet"
     
     if not os.path.exists(file_path):
-        print(f"⚠️ Bỏ qua: Không tìm thấy file {file_path}")
-        continue
+        raise FileNotFoundError(f"Required source file not found: {file_path}")
     
     print(f"-> Đang đọc file: {file_path} ...")
     df = pd.read_parquet(file_path)

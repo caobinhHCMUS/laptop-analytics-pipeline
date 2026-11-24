@@ -17,5 +17,6 @@ models:
       - name: brand_id
         tests:
           - relationships:
-              to: ref('stg_brands')
-              field: brand_id
+              arguments:
+                to: ref('stg_brands')
+                field: brand_id

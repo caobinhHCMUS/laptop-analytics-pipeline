@@ -1,0 +1,8 @@
+clickhouse-connect
+dbt-core==1.12.6
+dbt-sqlserver==1.12.1
+pandas
+pyarrow
+pyodbc
+python-dotenv
+SQLAlchemy

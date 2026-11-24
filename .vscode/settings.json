@@ -1,0 +1,8 @@
+{
+  "dbt.dbtCmd": "D:\\laptop-analytics-pipeline\\venv\\Scripts\\dbt.exe",
+  "dbt.project": "dbt_project",
+  "python.defaultInterpreterPath": "D:\\laptop-analytics-pipeline\\venv\\Scripts\\python.exe",
+  "terminal.integrated.env.windows": {
+    "PATH": "D:\\laptop-analytics-pipeline\\venv\\Scripts;${env:PATH}"
+  }
+}
